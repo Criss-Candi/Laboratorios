@@ -1,0 +1,36 @@
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+#define reading A0
+const int pinAnalogo=A0;
+float distancia =0;
+int sensor= 0;
+LiquidCrystal_I2C lcd(0x27,16,2);
+void setup()
+{
+Serial.begin(9600);
+lcd.init();
+lcd.backlight();
+}
+void loop()
+{
+sensor = analogRead(pinAnalogo);
+distancia = ((0.000000004*(pow(sensor,4.0)))+(0.00005*(pow(sensor,3.0)))-
+(0.0105*(pow(sensor,2.0)))+(4.7307*(sensor))-786.5)/3554.7;
+ Serial.print("DISTANCIA=");
+ Serial.print(distancia);
+ Serial.print(" cm \n");
+ delay(100);
+ {
+lcd.clear();
+ lcd.setCursor(0,0);
+ lcd.print("VOLTAJE=");
+ lcd.print(sensor);
+ lcd.print("volt=");
+ delay(100);
+ lcd.setCursor(0,1);
+lcd.print("DIST=");
+ lcd.print(distancia);
+ lcd.print(" cm");
+}
+ delay(1200);
+}
